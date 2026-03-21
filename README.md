@@ -122,8 +122,8 @@ Every record in the system connects back to an **appointment** — this is inten
 
 This project is being built in phases:
 
-- **Phase 1** — Project setup, database models, authentication system
-- **Phase 2** — Core appointment workflow APIs (approve, reject, prescribe, bill, treat)
+- ✗ **Phase 1** — Project setup, database models, authentication system
+- ✗ **Phase 2** — Core appointment workflow APIs (approve, reject, prescribe, bill, treat)
 - **Phase 3** — Role-based frontend dashboards (Doctor, Receptionist, Patient)
 - **Phase 4** — Notification engine, patient history view, UI polish
 - **Phase 5** *(planned)* — Analytics, online payments, multi-doctor support
