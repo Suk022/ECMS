@@ -1,0 +1,7 @@
+.windsurf/
+Eye_Clinic_Management_System_Technical_Reference.md
+.env
+__pycache__
+*.pyc
+dist/
+build/
