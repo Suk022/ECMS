@@ -3,7 +3,7 @@ from typing import Optional
 from decimal import Decimal
 from pydantic import BaseModel, Field
 
-from models.billing import BillingStatus
+from ..models.billing import BillingStatus
 
 
 class BillingCreate(BaseModel):

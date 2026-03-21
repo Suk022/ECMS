@@ -2,14 +2,14 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from models.billing import Billing, BillingStatus
-from models.appointment import Appointment, AppointmentStatus
-from models.user import User
-from schemas.billing import BillingCreate, BillingResponse, BillingPay
-from core.dependencies import get_current_user, require_doctor, require_receptionist
-from services.notification_service import send_notification
-from models.notification import NotificationType
+from ..database import get_db
+from ..models.billing import Billing, BillingStatus
+from ..models.appointment import Appointment, AppointmentStatus
+from ..models.user import User
+from ..schemas.billing import BillingCreate, BillingResponse, BillingPay
+from ..core.dependencies import get_current_user, require_doctor, require_receptionist
+from ..services.notification_service import send_notification
+from ..models.notification import NotificationType
 
 router = APIRouter(prefix="/billing", tags=["billing"])
 

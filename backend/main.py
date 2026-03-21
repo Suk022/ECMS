@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from database import engine, Base
-from routers import auth_router, appointments_router, prescriptions_router, billing_router, notifications_router
+from .database import engine, Base
+from .routers import auth_router, appointments_router, prescriptions_router, billing_router, notifications_router
 
 # Create FastAPI app
 app = FastAPI(

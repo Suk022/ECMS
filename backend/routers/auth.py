@@ -2,14 +2,14 @@ from datetime import timedelta, datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from models.user import User, UserRole
-from models.patient import Patient
-from models.refresh_token import RefreshToken
-from schemas.auth import UserCreate, UserResponse, Token, RefreshTokenRequest, LogoutRequest
-from core.security import hash_password, verify_password
-from core.auth import create_access_token, create_refresh_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from core.dependencies import get_current_user
+from ..database import get_db
+from ..models.user import User, UserRole
+from ..models.patient import Patient
+from ..models.refresh_token import RefreshToken
+from ..schemas.auth import UserCreate, UserResponse, Token, RefreshTokenRequest, LogoutRequest
+from ..core.security import hash_password, verify_password
+from ..core.auth import create_access_token, create_refresh_token, verify_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from ..core.dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 

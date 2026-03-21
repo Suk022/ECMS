@@ -3,7 +3,7 @@ from typing import Optional
 from zoneinfo import ZoneInfo
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-from models.appointment import AppointmentStatus
+from ..models.appointment import AppointmentStatus
 
 
 class AppointmentCreate(BaseModel):

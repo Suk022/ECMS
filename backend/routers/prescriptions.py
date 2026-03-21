@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from models.prescription import Prescription
-from models.appointment import Appointment, AppointmentStatus
-from models.user import User
-from schemas.prescription import PrescriptionCreate, PrescriptionResponse
-from core.dependencies import get_current_user, require_doctor, require_receptionist
+from ..database import get_db
+from ..models.prescription import Prescription
+from ..models.appointment import Appointment, AppointmentStatus
+from ..models.user import User
+from ..schemas.prescription import PrescriptionCreate, PrescriptionResponse
+from ..core.dependencies import get_current_user, require_doctor, require_receptionist
 
 router = APIRouter(prefix="/prescriptions", tags=["prescriptions"])
 

@@ -2,10 +2,10 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database import get_db
-from models.notification import Notification
-from models.user import User
-from core.dependencies import require_patient
+from ..database import get_db
+from ..models.notification import Notification
+from ..models.user import User
+from ..core.dependencies import require_patient
 
 router = APIRouter(prefix="/notifications", tags=["notifications"])
 

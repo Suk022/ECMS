@@ -2,10 +2,10 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from database import get_db
-from models.appointment import Appointment, AppointmentStatus
-from models.user import User, UserRole
-from schemas.appointment import (
+from ..database import get_db
+from ..models.appointment import Appointment, AppointmentStatus
+from ..models.user import User, UserRole
+from ..schemas.appointment import (
     AppointmentCreate, 
     AppointmentResponse,
     PatientAppointmentResponse,
@@ -13,9 +13,9 @@ from schemas.appointment import (
     AppointmentApprove, 
     AppointmentReject
 )
-from core.dependencies import get_current_user, require_doctor, require_patient
-from services.notification_service import send_notification
-from models.notification import NotificationType
+from ..core.dependencies import get_current_user, require_doctor, require_patient
+from ..services.notification_service import send_notification
+from ..models.notification import NotificationType
 
 router = APIRouter(prefix="/appointments", tags=["appointments"])
 

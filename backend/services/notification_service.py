@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.notification import Notification, NotificationType
+from ..models.notification import Notification, NotificationType
 
 
 def send_notification(
