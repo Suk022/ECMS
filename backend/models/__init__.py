@@ -4,6 +4,7 @@ from .appointment import Appointment, AppointmentStatus
 from .prescription import Prescription
 from .billing import Billing, BillingStatus
 from .notification import Notification, NotificationType
+from .refresh_token import RefreshToken
 
 __all__ = [
     "User", "UserRole", 
@@ -11,5 +12,6 @@ __all__ = [
     "Appointment", "AppointmentStatus", 
     "Prescription", 
     "Billing", "BillingStatus", 
-    "Notification", "NotificationType"
+    "Notification", "NotificationType",
+    "RefreshToken"
 ]

@@ -24,12 +24,17 @@ class Appointment(Base):
     doctor_note = Column(Text, nullable=True)
     treated_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # patient info fields
+    query = Column(String(500), nullable=False)
+    urgency = Column(String(100), nullable=True)
+    past_history = Column(Text, nullable=True)
 
-    # Relationships
+    # user relationships
     patient = relationship("User", foreign_keys=[patient_id], back_populates="appointments_as_patient")
     doctor = relationship("User", foreign_keys=[doctor_id], back_populates="appointments_as_doctor")
     
-    # One-to-one relationships
+    # one-to-one relationships
     prescription = relationship(
         "Prescription", 
         back_populates="appointment",
@@ -44,7 +49,7 @@ class Appointment(Base):
         cascade="all, delete-orphan"
     )
     
-    # One-to-many relationship
+    # one-to-many relationship
     notifications = relationship(
         "Notification", 
         back_populates="appointment",

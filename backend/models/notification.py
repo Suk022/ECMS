@@ -34,7 +34,7 @@ class Notification(Base):
     channel = Column(String(10), nullable=False, default="EMAIL")
     sent_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
+    # relationships
     patient = relationship("User", foreign_keys=[patient_id])
     appointment = relationship("Appointment", back_populates="notifications")
 

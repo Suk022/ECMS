@@ -27,7 +27,7 @@ class Billing(Base):
     paid_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
+    # relationship
     appointment = relationship("Appointment", back_populates="billing")
 
     def __repr__(self):

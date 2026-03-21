@@ -26,7 +26,7 @@ class Prescription(Base):
     medications = Column(JSON, nullable=True)  # Using JSON for PostgreSQL JSONB compatibility
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
+    # relationships
     appointment = relationship("Appointment", back_populates="prescription")
     doctor = relationship("User", foreign_keys=[doctor_id])
 

@@ -23,25 +23,30 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
+    # patient appointments
     appointments_as_patient = relationship(
         "Appointment", 
         back_populates="patient",
         foreign_keys="Appointment.patient_id"
     )
     
+    # doctor appointments  
     appointments_as_doctor = relationship(
         "Appointment", 
         back_populates="doctor",
         foreign_keys="Appointment.doctor_id"
     )
     
+    # one-to-one patient profile
     patient_profile = relationship(
         "Patient", 
         back_populates="user",
         uselist=False,
         cascade="all, delete-orphan"
     )
+    
+    # refresh tokens
+    refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User(id={self.id}, email={self.email}, role={self.role.value})>"
