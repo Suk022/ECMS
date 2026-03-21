@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models.user import User, UserRole
-from models import UserRole as UserRoleEnum
 from .auth import verify_token
 
 # HTTP Bearer scheme for token extraction
@@ -16,29 +15,27 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ) -> User:
-    """
-    Authenticate user and return current user from database.
-    
-    Args:
-        credentials: Bearer token from Authorization header
-        db: Database session
-        
-    Returns:
-        User object from database
-        
-    Raises:
-        HTTPException: 401 if token is invalid or user not found
-    """
+    """Authenticate and return current user."""
     # Verify and decode token
     token = credentials.credentials
     payload = verify_token(token)
     
     # Extract user ID from token
-    user_id: Optional[int] = payload.get("sub")
-    if user_id is None:
+    user_id_str: Optional[str] = payload.get("sub")
+    if user_id_str is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Convert string user_id back to int
+    try:
+        user_id = int(user_id_str)
+    except (ValueError, TypeError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid user ID in token",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
@@ -51,23 +48,21 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
+    # Cross-validate role between token and database
+    token_role = payload.get("role")
+    if token_role is None or token_role != user.role.value:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token role mismatch",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
     return user
 
 
 async def require_doctor(current_user: User = Depends(get_current_user)) -> User:
-    """
-    Require current user to have DOCTOR role.
-    
-    Args:
-        current_user: Authenticated user
-        
-    Returns:
-        User object if role is DOCTOR
-        
-    Raises:
-        HTTPException: 403 if user is not a doctor
-    """
-    if current_user.role != UserRoleEnum.DOCTOR:
+    """Require doctor role."""
+    if current_user.role != UserRole.DOCTOR:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden: Doctor role required"
@@ -76,19 +71,8 @@ async def require_doctor(current_user: User = Depends(get_current_user)) -> User
 
 
 async def require_receptionist(current_user: User = Depends(get_current_user)) -> User:
-    """
-    Require current user to have RECEPTIONIST role.
-    
-    Args:
-        current_user: Authenticated user
-        
-    Returns:
-        User object if role is RECEPTIONIST
-        
-    Raises:
-        HTTPException: 403 if user is not a receptionist
-    """
-    if current_user.role != UserRoleEnum.RECEPTIONIST:
+    """Require receptionist role."""
+    if current_user.role != UserRole.RECEPTIONIST:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden: Receptionist role required"
@@ -97,19 +81,8 @@ async def require_receptionist(current_user: User = Depends(get_current_user)) -
 
 
 async def require_patient(current_user: User = Depends(get_current_user)) -> User:
-    """
-    Require current user to have PATIENT role.
-    
-    Args:
-        current_user: Authenticated user
-        
-    Returns:
-        User object if role is PATIENT
-        
-    Raises:
-        HTTPException: 403 if user is not a patient
-    """
-    if current_user.role != UserRoleEnum.PATIENT:
+    """Require patient role."""
+    if current_user.role != UserRole.PATIENT:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Access forbidden: Patient role required"
